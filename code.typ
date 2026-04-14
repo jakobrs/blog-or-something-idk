@@ -11,7 +11,7 @@
 #set text(size: 14pt)
 #set par(justify: true)
 
-= Enclsoing the horse in singly-exponential time
+= #link("https://enclose.horse")[Enclsoing the horse] in singly-exponential time
 
 Consider the #smallcaps[Steiner Tree] problem:
 

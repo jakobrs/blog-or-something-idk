@@ -48,3 +48,8 @@ h2 {
     font-size: 1.3em;
     margin-bottom: 0pt;
 }
+
+h2 a {
+    text-decoration: none;
+    color: inherit;
+}
