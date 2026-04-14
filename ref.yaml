@@ -1,0 +1,7 @@
+a:
+  type: Book
+  title: "Cut&Count technique for graph connectivity problems parameterized by treewidth"
+  author: Cygan, Marek
+  date: 2011-09
+  genre: Doctoral dissertatoin
+  chapter: 3
