@@ -72,7 +72,7 @@ h2 a {
 
         font-size: 11.5pt;
     }
-    sup[role=doc-backlink]>a, a[role=doc-noteref] {
+    sup[role=doc-backlink]>a, sup[role=doc-noteref]>a {
         cursor: default;
         pointer-events: none;
         text-decoration: none;
