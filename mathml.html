@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Tables */
+      mtable {
+        math-style: inherit;
+      }
+      mtd {
+        math-depth: auto-add;
+        math-style: compact;
+        math-shift: compact;
+      }
+      
+      /* Equations */
+      mtable.multiline-equation mtd {
+        math-depth: inherit;
+        math-style: inherit;
+        math-shift: inherit;
+        padding: 0;
+      }
+      mtable.multiline-equation mtr:not(:last-child) mtd {
+        padding-bottom: 0;
+      }
+      math:is(:not([display])) > mtable.multiline-equation mtd,
+      mtable.multiline-equation.aligned-equation mtd:nth-child(even) {
+        text-align: -webkit-left;
+      }
+      mtable.multiline-equation.aligned-equation mtd:nth-child(odd) {
+        text-align: -webkit-right;
+      }
+      
+      /* Fractions */
+      mfrac {
+        padding-inline: 0;
+        margin-inline: 0.1em;
+      }
+      
+      /* Other rules for scriptlevel, displaystyle and math-shift */
+      munder > :nth-child(2),
+      munderover > :nth-child(2) {
+        math-shift: compact
+      }
+      munder[accentunder="true" i] > :not(:first-child),
+      mover[accent="true" i] > :not(:first-child) {
+        math-depth: inherit;
+        math-style: inherit;
+        math-shift: inherit;
+      }
+    </style>
+  </head>
+  <body>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Libertinus+Math&family=Libertinus+Serif+Display&family=Libertinus+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
+      
+      html {
+          --bg: #fdf6ea;  /* solarized base3 */
+          --fg: #073642;
+          --fg-acc: #002b36;
+      }
+      
+      path {
+          fill: var(--fg);
+      }
+      
+      body {
+          text-align: justify;
+          hyphens: auto;
+      
+          background-color: var(--bg);
+          margin: auto;
+          color: var(--fg);
+          /*width: min(17cm, 90vw);*/
+      
+          padding-left: 1cm;
+          padding-right: 1cm;
+          padding-top: 0.2cm;
+          padding-bottom: 2cm;
+          width: calc(min(17cm, 100vw - 2cm));
+          /* min(14pt, x*vw) */
+          /* if vw = 19cm, x*vw = 14pt ==> x = 14pt/19cm */
+          /*font-size: calc(min(14pt, (14pt/19cm) * 100vw));*/
+          font-size: calc(min(14pt, 2.6vw));  /* firefox compat */
+      
+          font-family: "libertinus serif";
+      }
+      
+      math {
+          font-family: "libertinus math";
+      }
+      
+      .display-eqn {
+          text-align: center;
+      }
+      
+      .problem-box {
+          border: 2pt solid var(--fg-acc);
+          padding: 0pt 10pt;
+      }
+      .problem-box hr {
+          width: calc(100% + 20pt);
+          transform: translateX(-10pt);
+          height: 2pt;
+          border: none;
+          background-color: var(--fg-acc);
+      }
+      
+      h2 {
+          font-size: 1.3em;
+          margin-bottom: 0pt;
+      }
+      
+      h2 a {
+          text-decoration: none;
+          color: inherit;
+      }
+      
+      @media (width >= 32cm) {
+          [role=doc-endnotes] li {
+              position: absolute;
+              top: 1000000000000pt;
+              left: calc(50vw + 17cm / 2 + 1cm); /* ie. 1cm to the left */
+              right: 0.8cm;
+              text-align: left;
+      
+              font-size: 11.5pt;
+          }
+          sup[role=doc-backlink]>a, a[role=doc-noteref] {
+              cursor: default;
+              pointer-events: none;
+              text-decoration: none;
+              color: var(--fg);
+          }
+          sup[role=doc-backlink]>a:after {
+              content: " ";
+          }
+      
+          .footnote-sep {
+              display: none;
+          }
+      }
+      
+      html {
+          position: relative;
+      }
+      
+      .version-link {
+          position: absolute;
+          bottom: 0.5cm;
+          right: 0.5cm;
+      }
+      .version-link>a {
+          color: var(--fg-acc);
+      }
+    </style>
+    <h2><a href="https://enclose.horse">Enclsoing the horse</a> in singly-exponential time</h2>
+    <p>Consider the <span style="font-variant-caps: small-caps">Steiner Tree</span> problem:</p>
+    <div class="problem-box">
+      <p>Problem: <strong><span style="font-variant-caps: small-caps">Steiner Tree</span></strong></p>
+      <hr>
+      <p>Input: a graph <math><mi>𝐺</mi></math>, a set of terminals <math><mi>𝑇</mi><mo>⊆</mo><mi>𝑉</mi><mrow><mo>(</mo><mi>𝐺</mi><mo>)</mo></mrow></math>, and an integer <math><mi>𝑘</mi></math>.</p>
+      <p>Output: Does <math><mi>𝐺</mi></math> contain a <strong>connected</strong> subset of size <math><mo form="infix" lspace="0em">≤</mo><mi>𝑘</mi></math> that contains all of <math><mi>𝑇</mi></math>?</p>
+    </div>
+    <p>Without the connectivity requirement, this problem can easily be solved by standard DP techniques (although it is also trivial: Just output <code>yes</code> if and only if <math><mrow><mo>|</mo><mi>𝑇</mi><mo>|</mo></mrow><mo>≤</mo><mi>𝑘</mi></math>). When trying to formulate a treewidth-based DP for the full problem, however, we run into an issue: A naive formulation might look as follows:</p>
+    <math display="block">
+      <mi>𝐴</mi>
+      <mrow>
+        <mo>(</mo>
+        <mrow>
+          <mi>𝑥</mi>
+          <mo>,</mo>
+          <mi>𝑓</mi>
+        </mrow>
+        <mo>)</mo>
+      </mrow>
+      <mo>=</mo>
+      <mtext>min. size of solution</mtext>
+      <mspace width="0.2222222222222222em"/>
+      <mi>𝑆</mi>
+      <mspace width="0.2222222222222222em"/>
+      <mtext>in</mtext>
+      <mspace width="0.2222222222222222em"/>
+      <msub>
+        <mi>𝑉</mi>
+        <mi>𝑥</mi>
+      </msub>
+      <mspace width="0.2222222222222222em"/>
+      <mtext>such that</mtext>
+      <mspace width="0.2222222222222222em"/>
+      <msub>
+        <mi>𝐵</mi>
+        <mi>𝑥</mi>
+      </msub>
+      <mo>∩</mo>
+      <mi>𝑆</mi>
+      <mo>=</mo>
+      <mi>𝑓</mi>
+    </math>
+    <p>with <math><mi>𝑛</mi><mspace width="0.16666666666666666em"/><msup><mn>2</mn><mtext>tw</mtext></msup></math> many states. This does not quite work, however: consider a grid graph like the following:</p>
+    <p>…</p>
+    <p>Here, <math><mi>𝐴</mi><mrow><mo>(</mo><mrow><mtext>row</mtext><mspace width="0.2222222222222222em"/><mn>5</mn><mo>,</mo><mrow><mo>{</mo><mrow><mrow><mo>(</mo><mrow><mn>5</mn><mo>,</mo><mn>1</mn></mrow><mo>)</mo></mrow><mo>,</mo><mrow><mo>(</mo><mrow><mn>5</mn><mo>,</mo><mn>3</mn></mrow><mo>)</mo></mrow></mrow><mo>}</mo></mrow></mrow><mo>)</mo></mrow></math> tells us nothing about whether <math><mrow><mo>(</mo><mrow><mn>5</mn><mo>,</mo><mn>1</mn></mrow><mo>)</mo></mrow></math> and <math><mrow><mo>(</mo><mrow><mn>5</mn><mo>,</mo><mn>3</mn></mrow><mo>)</mo></mrow></math> are connected somewhere within <math><msub><mi>𝑉</mi><mrow><mtext>row</mtext><mspace width="0.2222222222222222em"/><mn>5</mn></mrow></msub></math> (ie. through <math><mrow><mo>(</mo><mrow><mn>6</mn><mo>,</mo><mn>2</mn></mrow><mo>)</mo></mrow></math>) or outside (through <math><mrow><mo>(</mo><mrow><mn>4</mn><mo>,</mo><mn>2</mn></mrow><mo>)</mo></mrow></math>). Subsequently we will not be able to ensure that <math><mrow><mo>(</mo><mrow><mn>5</mn><mo>,</mo><mn>1</mn></mrow><mo>)</mo></mrow></math> and <math><mrow><mo>(</mo><mrow><mn>5</mn><mo>,</mo><mn>3</mn></mrow><mo>)</mo></mrow></math> are connected at all!</p>
+    <p>The “simple” way to work around this is to represent which subsets of <math><msub><mi>𝐵</mi><mi>𝑥</mi></msub></math> are connected in <math><msub><mi>𝑉</mi><mi>𝑥</mi></msub></math> directly in the DP state itself, ie.</p>
+    <math display="block">
+      <mi>𝐴</mi>
+      <mo lspace="0.2777777777777778em" rspace="0.2777777777777778em">:</mo>
+      <mrow>
+        <mo>(</mo>
+        <mrow>
+          <mi>𝑥</mi>
+          <mo lspace="0.2777777777777778em" rspace="0.2777777777777778em">:</mo>
+          <mtext>tree decomposition bag</mtext>
+        </mrow>
+        <mo>)</mo>
+      </mrow>
+      <mo lspace="0.2222222222222222em" rspace="0.2222222222222222em">×</mo>
+      <mrow>
+        <mo>(</mo>
+        <mrow>
+          <mi>𝑓</mi>
+          <mo lspace="0.2777777777777778em" rspace="0.2777777777777778em">:</mo>
+          <msup>
+            <mn>2</mn>
+            <msub>
+              <mi>𝐵</mi>
+              <mi>𝑥</mi>
+            </msub>
+          </msup>
+        </mrow>
+        <mo>)</mo>
+      </mrow>
+      <mo lspace="0.2222222222222222em" rspace="0.2222222222222222em">×</mo>
+      <mtext>equiv. rel. on</mtext>
+      <mspace width="0.2222222222222222em"/>
+      <mi>𝑓</mi>
+      <mo stretchy="false">→</mo>
+      <mi>ℕ</mi>
+    </math>
+    <math display="block">
+      <mtable class="multiline-equation aligned-equation">
+        <mtr>
+          <mtd>
+            <mi>𝐴</mi>
+            <mrow>
+              <mo>(</mo>
+              <mrow>
+                <mi>𝑥</mi>
+                <mo>,</mo>
+                <mi>𝑓</mi>
+                <mo>,</mo>
+                <mi>𝑐</mi>
+              </mrow>
+              <mo>)</mo>
+            </mrow>
+            <mo form="infix">=</mo>
+          </mtd>
+          <mtd>
+            <mtext>min. size of solution</mtext>
+            <mspace width="0.2222222222222222em"/>
+            <mi>𝑆</mi>
+            <mspace width="0.2222222222222222em"/>
+            <mtext>in</mtext>
+            <mspace width="0.2222222222222222em"/>
+            <msub>
+              <mi>𝑉</mi>
+              <mi>𝑥</mi>
+            </msub>
+            <mspace width="0.2222222222222222em"/>
+            <mtext>such that</mtext>
+            <mspace width="0.2222222222222222em"/>
+            <msub>
+              <mi>𝐵</mi>
+              <mi>𝑥</mi>
+            </msub>
+            <mo>∩</mo>
+            <mi>𝑆</mi>
+            <mo>=</mo>
+            <mi>𝑓</mi>
+          </mtd>
+        </mtr>
+        <mtr>
+          <mtd></mtd>
+          <mtd>
+            <mtext>and</mtext>
+            <mspace width="0.2222222222222222em"/>
+            <mrow>
+              <mo>(</mo>
+              <mrow>
+                <mi>𝑢</mi>
+                <mo>,</mo>
+                <mi>𝑣</mi>
+              </mrow>
+              <mo>)</mo>
+            </mrow>
+            <mo>∈</mo>
+            <mi>𝑐</mi>
+            <mspace width="0.2222222222222222em"/>
+            <mtext>iff. there is a path</mtext>
+            <mspace width="0.2222222222222222em"/>
+            <mi>𝑢</mi>
+            <mo>−</mo>
+            <mi>𝑣</mi>
+            <mspace width="0.2222222222222222em"/>
+            <mtext>in</mtext>
+            <mspace width="0.2222222222222222em"/>
+            <msub>
+              <mi>𝑉</mi>
+              <mi>𝑥</mi>
+            </msub>
+            <mo>∩</mo>
+            <mi>𝑆</mi>
+          </mtd>
+        </mtr>
+      </mtable>
+    </math>
+    <p>And while this works (and leads to a running time of the form <math><msup><mn>2</mn><mrow><mi>𝑂</mi><mrow><mo>(</mo><mrow><mtext>tw</mtext><mo form="prefix" lspace="0.16666666666666666em" rspace="0.16666666666666666em">log</mo><mtext>tw</mtext></mrow><mo>)</mo></mrow></mrow></msup><mi>𝑛</mi></math>), the dependence on the treewidth is no longer singly exponential.</p>
+    <p>The Cut&amp;Count technique is a recent (2013) technique invented to solve problems with “connectivity constraints” such as the above in singly-exponential time.</p>
+    <h3>Cut&amp;Count</h3>
+    <p>It will turn out that, instead of finding an exact answer, it will be sufficient to count the number of solutions (of a slightly modified problem) modulo 2. (proof of this comes later). As is usual whenever a DP gets too complicated, we will also take the solution size as a parameter <math><mi>𝑘</mi></math> instead of computing the optimum directly.</p>
+    <p>Let <math><mi>𝑅</mi></math> be the set of all “solutions” of the given size without the con­nectivity constraint (we will call these “potential solutions”), and <math><mi>𝑆</mi></math> be the subset of potential solutions which are actually connected.</p>
+    <math display="block">
+      <mtable class="multiline-equation aligned-equation">
+        <mtr>
+          <mtd>
+            <mi>𝑅</mi>
+          </mtd>
+          <mtd>
+            <mo form="infix">=</mo>
+            <mrow>
+              <mo>{</mo>
+              <mrow>
+                <mi>𝑋</mi>
+                <mo>⊆</mo>
+                <mi>𝑉</mi>
+                <mrow>
+                  <mo>(</mo>
+                  <mi>𝐺</mi>
+                  <mo>)</mo>
+                </mrow>
+                <mspace width="0.2222222222222222em"/>
+                <mo lspace="0em" rspace="0em">|</mo>
+                <mspace width="0.2222222222222222em"/>
+                <mi>𝑇</mi>
+                <mo>⊆</mo>
+                <mi>𝑋</mi>
+                <mo>,</mo>
+                <mrow>
+                  <mo>|</mo>
+                  <mi>𝑋</mi>
+                  <mo>|</mo>
+                </mrow>
+                <mo>=</mo>
+                <mi>𝑘</mi>
+              </mrow>
+              <mo>}</mo>
+            </mrow>
+          </mtd>
+        </mtr>
+        <mtr>
+          <mtd>
+            <mi>𝑆</mi>
+          </mtd>
+          <mtd>
+            <mo form="infix">=</mo>
+            <mrow>
+              <mo>{</mo>
+              <mrow>
+                <mi>𝑋</mi>
+                <mo>∈</mo>
+                <mi>𝑅</mi>
+                <mspace width="0.2222222222222222em"/>
+                <mo lspace="0em" rspace="0em">|</mo>
+                <mspace width="0.2222222222222222em"/>
+                <mi>𝑋</mi>
+                <mspace width="0.2222222222222222em"/>
+                <mtext>is connected</mtext>
+              </mrow>
+              <mo>}</mo>
+            </mrow>
+          </mtd>
+        </mtr>
+      </mtable>
+    </math>
+    <p>We would like to compute <math><mrow><mo>|</mo><mi>𝑆</mi><mo>|</mo></mrow></math> mod 2, but this seems hard. Computing the parity of <math><mrow><mo>|</mo><mi>𝑅</mi><mo>|</mo></mrow></math> is easy (in fact computing the whole of <math><mrow><mo>|</mo><mi>𝑅</mi><mo>|</mo></mrow></math> is easy), but this will not be very useful as the parity of <math><mrow><mo>|</mo><mi>𝑆</mi><mo>|</mo></mrow></math> and <math><mrow><mo>|</mo><mi>𝑅</mi><mo>|</mo></mrow></math> may differ.<sup id="loc-1" role="doc-noteref"><a href="#loc-3">1</a></sup></p>
+    <p>The main idea of the Cut&amp;Count technique is to replace the “global” connectivity constraint with a local constraint about graph cuts. More specifically, consider some potential solution <math><mi>𝑋</mi></math>. Let a “consistent cut” of <math><mi>𝑋</mi></math> be a cut <math><mrow><mo>(</mo><mrow><msub><mi>𝑋</mi><mi>𝑙</mi></msub><mo>,</mo><msub><mi>𝑋</mi><mi>𝑟</mi></msub></mrow><mo>)</mo></mrow></math> such that no edge in <math><mi>𝐺</mi><mrow><mo>[</mo><mi>𝑋</mi><mo>]</mo></mrow></math> crosses the cut. Equi­valently, a consistent cut consists of an assignment of a side (“left” or “right”) to each connected component of <math><mi>𝐺</mi><mrow><mo>[</mo><mi>𝑋</mi><mo>]</mo></mrow></math>, and thus the number of consistent cuts is exactly <math><msup><mn>2</mn><mrow><mtext>cc</mtext><mrow><mo>(</mo><mrow><mi>𝐺</mi><mrow><mo>[</mo><mi>𝑋</mi><mo>]</mo></mrow></mrow><mo>)</mo></mrow></mrow></msup></math>, where <math><mtext>cc</mtext><mrow><mo>(</mo><mi>𝐻</mi><mo>)</mo></mrow></math> is the number of con­nected components in <math><mi>𝐻</mi></math>.</p>
+    <p>This is almost what we want: if we somehow halved this number, we would get a number which is odd if <math><mi>𝐺</mi><mrow><mo>[</mo><mi>𝑋</mi><mo>]</mo></mrow></math> is connected and even otherwise. So let</p>
+    <math display="block">
+      <mi>𝐶</mi>
+      <mo>=</mo>
+      <mrow>
+        <mo>{</mo>
+        <mrow>
+          <mrow>
+            <mo>(</mo>
+            <mrow>
+              <mi>𝑋</mi>
+              <mo>,</mo>
+              <mrow>
+                <mo>(</mo>
+                <mrow>
+                  <msub>
+                    <mi>𝑋</mi>
+                    <mi>𝑙</mi>
+                  </msub>
+                  <mo>,</mo>
+                  <msub>
+                    <mi>𝑋</mi>
+                    <mi>𝑟</mi>
+                  </msub>
+                </mrow>
+                <mo>)</mo>
+              </mrow>
+            </mrow>
+            <mo>)</mo>
+          </mrow>
+          <mspace width="0.2222222222222222em"/>
+          <mo lspace="0em" rspace="0em">|</mo>
+          <mspace width="0.2222222222222222em"/>
+          <mi>𝑋</mi>
+          <mo>∈</mo>
+          <mi>𝑅</mi>
+          <mo>,</mo>
+          <mrow>
+            <mo>(</mo>
+            <mrow>
+              <msub>
+                <mi>𝑋</mi>
+                <mi>𝑙</mi>
+              </msub>
+              <mo>,</mo>
+              <msub>
+                <mi>𝑋</mi>
+                <mi>𝑟</mi>
+              </msub>
+            </mrow>
+            <mo>)</mo>
+          </mrow>
+          <mspace width="0.2222222222222222em"/>
+          <mtext>consistent cut of</mtext>
+          <mspace width="0.2222222222222222em"/>
+          <mi>𝑋</mi>
+        </mrow>
+        <mo>}</mo>
+      </mrow>
+    </math>
+    <p>Then <math><mrow><mo>|</mo><mi>𝐶</mi><mo>|</mo></mrow><mo>≡</mo><mrow><mo>|</mo><mi>𝑆</mi><mo>|</mo></mrow><mo form="prefix" lspace="0.16666666666666666em" rspace="0.16666666666666666em">mod</mo><mn>2</mn></math>, since connected potential solutions<sup id="loc-2" role="doc-noteref"><a href="#loc-4">2</a></sup> contribute by exactly <math><mn>1</mn></math> to <math><mrow><mo>|</mo><mi>𝐶</mi><mo>|</mo></mrow></math> all other potential solutions contribute by <math><mn>0</mn><mo form="prefix" lspace="0.16666666666666666em" rspace="0.16666666666666666em">mod</mo><mn>2</mn></math>.</p>
+    <p>To halve this number, we may simply pick a vertex <math><mi>𝑟</mi></math> we know is in the solution (ie. any vertex in <math><mi>𝑇</mi></math>) and require that it be put on the left side of the cut.</p>
+    <p>To compute <math><mrow><mo>|</mo><mi>𝐶</mi><mo>|</mo></mrow></math> we may use standard DP techniques: Given a bag <math><mi>𝑡</mi></math>, a subset <math><mi>𝑋</mi><mo>⊂</mo><msub><mi>𝐵</mi><mi>𝑡</mi></msub></math> and an assignment <math><mi>𝑠</mi><mo lspace="0.2777777777777778em" rspace="0.2777777777777778em">:</mo><mi>𝐴</mi><mo stretchy="false">→</mo><mrow><mo>{</mo><mrow><mtext>L</mtext><mo>,</mo><mtext>R</mtext></mrow><mo>}</mo></mrow></math>, let <math><mi>𝑐</mi><mrow><mo>(</mo><mrow><mi>𝑡</mi><mo>,</mo><mi>𝐴</mi><mo>,</mo><mi>𝑠</mi></mrow><mo>)</mo></mrow></math> be the number of pairs <math><mrow><mo>(</mo><mrow><mi>𝑋</mi><mo>,</mo><mrow><mo>(</mo><mrow><msub><mi>𝑋</mi><mi>𝑙</mi></msub><mo>,</mo><msub><mi>𝑋</mi><mi>𝑟</mi></msub></mrow><mo>)</mo></mrow></mrow><mo>)</mo></mrow></math> in <math><mi>𝐶</mi></math> except restricted to <math><mi>𝐺</mi><mrow><mo>[</mo><msub><mi>𝑉</mi><mi>𝑡</mi></msub><mo>]</mo></mrow></math> such that <math><mi>𝑋</mi><mo>∩</mo><msub><mi>𝐵</mi><mi>𝑡</mi></msub><mo>=</mo><mi>𝐴</mi></math> and <math><mi>𝑠</mi></math> gives the side of each vertex in <math><mi>𝐴</mi></math> in the cut, requiring that <math><mi>𝑠</mi><mrow><mo>(</mo><mi>𝑟</mi><mo>)</mo></mrow><mo>=</mo><mtext>L</mtext></math>. Computing <math><mi>𝑐</mi></math> in time <math><msup><mi>𝑂</mi><mo form="infix" lspace="0em" rspace="0em">∗</mo></msup><mrow><mo>(</mo><msup><mn>2</mn><mrow><mi>𝑂</mi><mrow><mo>(</mo><mi>𝑘</mi><mo>)</mo></mrow></mrow></msup><mo>)</mo></mrow></math> should then be relatively straightforward.</p>
+    <h3>The promised proof of why parity is enough</h3>
+    <p>There is some theorem that implies that randomly weighting the vertices in the graph and then looking for solutions that sum up to a given weight is enough.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim aeque doleamus animo, cum corpore dolemus, fieri tamen permagna accessio potest, si aliquod aeternum et infinitum impendere malum nobis opinemur. Quod idem licet transferre in voluptatem, ut.</p>
+    <section role="doc-bibliography">
+      <h2>Bibliography</h2>
+      <ul style="list-style-type: none">
+        <li><span class="prefix">[1]</span> M. Cygan, <em>Cut&amp;Count technique for graph connectivity problems parameterized by treewidth</em>. 2011.</li>
+      </ul>
+    </section>
+    <hr class="footnote-sep">
+    <div class="version-link"><a href="/">SVG version</a></div>
+    <p>
+      <script>
+function f() {
+  let minY = -10000;
+  for (let elem of document.querySelectorAll("[role=doc-endnotes] li")) {
+    let referent = document.querySelector(
+      elem.querySelector("sup[role=doc-backlink]>a").getAttribute("href"),
+    );
+    let top = referent.getBoundingClientRect().top + window.scrollY;
+    if (top <= minY) top = minY;
+
+    elem.style.top = `${top}px`;
+    minY = top + elem.getBoundingClientRect().height + 10;
+  }
+}
+
+setTimeout(f, 0);
+
+addEventListener("resize", f);
+
+      </script>
+    </p>
+    <section role="doc-endnotes">
+      <ol style="list-style-type: none">
+        <li id="loc-3"><sup role="doc-backlink"><a href="#loc-1">1</a></sup>testing footnotes</li>
+        <li id="loc-4"><sup role="doc-backlink"><a href="#loc-2">2</a></sup>aka solutions</li>
+      </ol>
+    </section>
+  </body>
+</html>

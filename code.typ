@@ -1,27 +1,17 @@
-// #show: html.html
+// #import "html_mathml_styling.typ": *
+#import "html_svg_styling.typ": *
+// #import "pdf_styling.typ": *
+
+#show: f
 
 #set text(lang: "en", region: "gb")
-#html.style(read("style.css"))
 
-#let html-div(a, ..args) = context { if target() != "html" { a } else { html.div(class: args.named().at("class"), a) } }
-
-#show math.equation.where(block: false): a => box(html.frame(a))
-#show math.equation.where(block: true): a => html-div(class: "display-eqn", html.frame(a))
-
-#set text(size: 14pt)
 #set par(justify: true)
 
 = #link("https://enclose.horse")[Enclsoing the horse] in singly-exponential time
 
 Consider the #smallcaps[Steiner Tree] problem:
 
-#let problem(name, body) = html-div(class: "problem-box", box(stroke: 1pt, inset: 10pt, width: 100%, [
-  Problem: #strong(smallcaps(name))
-  #v(-7pt) #line(start: (0% - 10pt, 0% + 0pt), end: (100% + 10pt, 0% + 0pt)) #v(-7pt)
-  #html.hr()
-
-  #body
-]))
 #problem("Steiner Tree")[
   Input: a graph $G$, a set of terminals $T subset.eq V(G)$, and an integer $k$.
 
@@ -83,7 +73,3 @@ There is some theorem that implies that randomly weighting the vertices in the g
 #lorem(50)
 
 #bibliography(full: true, "ref.yaml")
-
-#html.hr(class: "footnote-sep")
-
-#html.script(read("notes.js"))

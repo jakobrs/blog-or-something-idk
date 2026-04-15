@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Libertinus+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libertinus+Math&family=Libertinus+Serif+Display&family=Libertinus+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
 
 html {
     --bg: #fdf6ea;  /* solarized base3 */
@@ -30,6 +30,10 @@ body {
     font-size: calc(min(14pt, 2.6vw));  /* firefox compat */
 
     font-family: "libertinus serif";
+}
+
+math {
+    font-family: "libertinus math";
 }
 
 .display-eqn {
@@ -68,17 +72,30 @@ h2 a {
 
         font-size: 11.5pt;
     }
-    a[role=doc-backlink], a[role=doc-noteref] {
+    sup[role=doc-backlink]>a, a[role=doc-noteref] {
         cursor: default;
         pointer-events: none;
         text-decoration: none;
         color: var(--fg);
     }
-    a[role=doc-backlink]:after {
+    sup[role=doc-backlink]>a:after {
         content: " ";
     }
 
     .footnote-sep {
         display: none;
     }
+}
+
+html {
+    position: relative;
+}
+
+.version-link {
+    position: absolute;
+    bottom: 0.5cm;
+    right: 0.5cm;
+}
+.version-link>a {
+    color: var(--fg-acc);
 }
