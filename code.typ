@@ -84,4 +84,6 @@ There is some theorem that implies that randomly weighting the vertices in the g
 
 #bibliography(full: true, "ref.yaml")
 
-#html.hr()
+#html.hr(class: "footnote-sep")
+
+#html.script(read("notes.js"))

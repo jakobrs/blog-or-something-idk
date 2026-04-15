@@ -59,6 +59,29 @@
           text-decoration: none;
           color: inherit;
       }
+      
+      @media (width >= 32cm) {
+          [role=doc-endnotes] li {
+              position: absolute;
+              top: 1000000000000pt;
+              left: calc(50vw + 17cm / 2 + 1cm); /* ie. 1cm to the left */
+              right: 0.8cm;
+              text-align: left;
+          }
+          a[role=doc-backlink], a[role=doc-noteref] {
+              cursor: default;
+              pointer-events: none;
+              text-decoration: none;
+              color: var(--fg);
+          }
+          a[role=doc-backlink]:after {
+              content: " ";
+          }
+      
+          .footnote-sep {
+              display: none;
+          }
+      }
     </style>
     <h2><a href="https://enclose.horse">Enclsoing the horse</a> in singly-exponential time</h2>
     <p>Consider the <span style="font-variant-caps: small-caps">Steiner Tree</span> problem:</p>
@@ -103,7 +126,27 @@
         <li><span class="prefix">[1]</span> M. Cygan, <em>Cut&amp;Count technique for graph connectivity problems parameterized by treewidth</em>. 2011.</li>
       </ul>
     </section>
-    <hr>
+    <hr class="footnote-sep">
+    <script>
+function f() {
+  let minY = -10000;
+  for (let elem of document.querySelectorAll("[role=doc-endnotes] li")) {
+    let referent = document.querySelector(
+      elem.querySelector("a[role=doc-backlink]").getAttribute("href"),
+    );
+    let top = referent.getBoundingClientRect().top + window.scrollY;
+    if (top <= minY) top = minY;
+
+    elem.style.top = `${top}px`;
+    minY = top + elem.getBoundingClientRect().height + 10;
+  }
+}
+
+setTimeout(f, 0);
+
+addEventListener("resize", f);
+
+    </script>
     <section role="doc-endnotes">
       <ol style="list-style-type: none">
         <li id="loc-3"><a href="#loc-1" role="doc-backlink"><sup>1</sup></a>testing footnotes</li>

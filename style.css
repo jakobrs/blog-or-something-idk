@@ -51,3 +51,26 @@ h2 a {
     text-decoration: none;
     color: inherit;
 }
+
+@media (width >= 32cm) {
+    [role=doc-endnotes] li {
+        position: absolute;
+        top: 1000000000000pt;
+        left: calc(50vw + 17cm / 2 + 1cm); /* ie. 1cm to the left */
+        right: 0.8cm;
+        text-align: left;
+    }
+    a[role=doc-backlink], a[role=doc-noteref] {
+        cursor: default;
+        pointer-events: none;
+        text-decoration: none;
+        color: var(--fg);
+    }
+    a[role=doc-backlink]:after {
+        content: " ";
+    }
+
+    .footnote-sep {
+        display: none;
+    }
+}
