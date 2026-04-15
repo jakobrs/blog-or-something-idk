@@ -6,6 +6,10 @@ html {
     --fg-acc: #002b36;
 }
 
+path {
+    fill: var(--fg);
+}
+
 body {
     text-align: justify;
     hyphens: auto;
