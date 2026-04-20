@@ -1,8 +1,6 @@
-// #import "html_mathml_styling.typ": *
-#import "html_svg_styling.typ": *
-// #import "pdf_styling.typ": *
+#import "../styling/styling.typ": lib
 
-#show: f
+#show: lib.f
 
 #set text(lang: "en", region: "gb")
 
@@ -12,7 +10,7 @@
 
 Consider the #smallcaps[Steiner Tree] problem:
 
-#problem("Steiner Tree")[
+#lib.problem("Steiner Tree")[
   Input: a graph $G$, a set of terminals $T subset.eq V(G)$, and an integer $k$.
 
   Output: Does $G$ contain a *connected* subset of size $<= k$ that contains all of $T$?
@@ -72,4 +70,4 @@ There is some theorem that implies that randomly weighting the vertices in the g
 
 #lorem(50)
 
-#bibliography(full: true, "ref.yaml")
+#bibliography(full: true, "horse_ref.yaml")
