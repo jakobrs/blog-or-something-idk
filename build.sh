@@ -17,10 +17,10 @@ ending() {
 
 compile() {
     for fmt in {html,mathml,pdf}; do
-        typst compile --root "$PWD" --features html --format "$(format $fmt)" "posts/$1.typ" "out/$1$(ending $fmt)" --input "format=$fmt"
+        typst compile --root "$PWD" --features html --format "$(format $fmt)" "posts/$1.typ" "docs/$1$(ending $fmt)" --input "format=$fmt"
     done
 }
 
-rm out/*
-cp index.html out/index.html
+rm docs/*
+cp index.html docs/index.html
 compile horse
