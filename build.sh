@@ -22,5 +22,5 @@ compile() {
 }
 
 rm docs/*
-cp index.html docs/index.html
+cp index.html CNAME docs/
 compile horse
