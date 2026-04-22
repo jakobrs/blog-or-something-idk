@@ -1,17 +1,20 @@
 function f() {
-  let minY = -10000;
+  let i = 0;
   for (let elem of document.querySelectorAll("[role=doc-endnotes] li")) {
     let referent = document.querySelector(
       elem.querySelector("sup[role=doc-backlink]>a").getAttribute("href"),
     );
-    let top = referent.getBoundingClientRect().top + window.scrollY;
-    if (top <= minY) top = minY;
 
-    elem.style.top = `${top}px`;
-    minY = top + elem.getBoundingClientRect().height + 10;
+    console.log(referent);
+    referent.style.anchorName = `--ref-${i}`;
+    elem.style.anchorName = `--ref-${i}-footnote`;
+    if (i == 0) {
+      elem.style.top = `anchor(--ref-0 top)`;
+    } else {
+      elem.style.top = `calc(max(anchor(--ref-${i - 1}-footnote bottom) + 10px, anchor(--ref-${i} top)))`;
+    }
+    i += 1;
   }
 }
 
 setTimeout(f, 0);
-
-addEventListener("resize", f);

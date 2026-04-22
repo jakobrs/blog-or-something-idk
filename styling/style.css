@@ -65,7 +65,7 @@ h2 a {
 @media (width >= 32cm) {
     [role=doc-endnotes] li {
         position: absolute;
-        top: 1000000000000pt;
+        /*top: 1000000000000pt;*/
         left: calc(50vw + 17cm / 2 + 1cm); /* ie. 1cm to the left */
         right: 0.8cm;
         text-align: left;
