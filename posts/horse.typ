@@ -22,9 +22,9 @@ $ A(x, f) = "min. size of solution" S "in" V_x "such that" B_x inter S = f $
 
 with $n thin 2^"tw"$ many states. This does not quite work, however: consider a grid graph like the following:
 
-...
+#figure(image("horse_grid.png"))
 
-Here, $A("row" 5, {(5, 1), (5, 3)})$ tells us nothing about whether $(5, 1)$ and $(5, 3)$ are connected somewhere within $V_("row" 5)$ (ie. through $(6, 2)$) or outside (through $(4, 2)$). Subsequently we will not be able to ensure that $(5, 1)$ and $(5, 3)$ are connected at all!
+Here, $A("row" 3, {(3, 1), (3, 3)})$ tells us nothing about whether $(3, 1)$ and $(3, 3)$ are connected somewhere within $V_("row" 3)$ (ie. through $(4, 2)$) or outside (through $(2, 2)$). Subsequently we will not be able to ensure that $(3, 1)$ and $(3, 3)$ are connected at all!
 
 The "simple" way to work around this is to represent which subsets of $B_x$ are connected in $V_x$ directly in the DP state itself, ie.
 

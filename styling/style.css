@@ -115,3 +115,11 @@ html {
 .version-link>a {
     color: var(--fg-acc);
 }
+
+figure {
+    text-align: center;
+}
+
+figure img {
+    width: 50%;
+}
