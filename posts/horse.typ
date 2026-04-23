@@ -37,7 +37,7 @@ $
 
 And while this works (and leads to a running time of the form $2^O("tw" log "tw") n$), the dependence on the treewidth is no longer singly exponential.
 
-The Cut&Count technique is a recent (2013) technique invented to solve problems with "connectivity constraints" such as the above in singly-exponential time.
+The Cut&Count technique @cygan_phd is a recent (2013) technique invented to solve problems with "connectivity constraints" such as the above in singly-exponential time.
 
 == Cut&Count
 
@@ -66,8 +66,18 @@ To compute $abs(C)$ we may use standard DP techniques: Given a bag $t$, a subset
 
 == The promised proof of why parity is enough
 
-There is some theorem that implies that randomly weighting the vertices in the graph and then looking for solutions that sum up to a given weight is enough.
+The following definition and lemma are taken from @cygan_phd:
 
-#lorem(50)
+*Definition.* A _function_ $omega : U -> ZZ$ isolates a set family $cal(F) subset.eq 2^U$ if there is a unique $S' in cal(F)$ with $omega(S') = min_(S in cal(F)) omega(S)$.
+
+*Lemma.* _(Isolation Lemma, @isol)_ Let $cal(F) subset.eq 2^U$ be a set family over a universe $U$ with $abs(cal(F)) > 0$. For each $u in U$, choose a weight $omega(u) in {1, 2, ..., N}$ uniformly and independently at random. Then
+
+$ PP[omega "isolates" cal(F)] >= 1 - abs(U)/N $
+
+The relevance of the Isolation Lemma is as follows: Let $U = V$ and $cal(F)$ be the set of solutions. Then the isolation lemma implies that if we randomly weigh the vertices in the graph, whp. there will be some weight $w$ such that exactly one solution has weight $w$. In particular, $1$ is odd, so if we only look for solutions of weight $w$, if $omega "isolates" cal(F)$, we will detect that we have an odd number of solutions and thus that a solution exists.
+
+We get the following algorithm: let $N = 2 abs(V)$, and uniformly and independently at random assign a weight in ${1, ..., N}$ to each vertex in the graph. Then, for each $w$ from $1$ to $N abs(V)$#footnote[Or any upper bound on the maximum solution weight, for #smallcaps[Steiner Tree] $k abs(V)$ suffices#footnote[testing nested footnotes]], compute the number of solutions of total weight $w mod 2$. If any of them is nonzero, return `True`, otherwise return `False`.
+
+Obviously, if the algorithm returns `True`, there must be at least one solution. Otherwise, the probability that a solution exists is $<= abs(V) slash N = 1 slash 2$, by the Isolation Lemma, as outlined above.
 
 #bibliography(full: true, "horse_ref.yaml")

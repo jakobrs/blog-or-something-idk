@@ -59,6 +59,7 @@
           --bg: #fdf6ea;  /* solarized base3 */
           --fg: #073642;
           --fg-acc: #002b36;
+          --bg-acc: #eee8d5;
       }
       
       path {
@@ -112,9 +113,13 @@
           margin-bottom: 0pt;
       }
       
-      h2 a {
+      a[role=doc-biblioref], a[role=doc-backlink], h2 a {
           text-decoration: none;
           color: inherit;
+      }
+      a[role=doc-biblioref]:hover, a[role=doc-backlink]:hover, h2 a:hover {
+          background-color: var(--bg-acc);
+          box-shadow: 0 0 0 0.05cm var(--bg-acc);
       }
       
       @media (width >= 32cm) {
@@ -122,10 +127,9 @@
               position: absolute;
               /*top: 1000000000000pt;*/
               left: calc(50vw + 17cm / 2 + 1cm); /* ie. 1cm to the left */
+              max-width: 315px;
               right: 0.8cm;
               text-align: left;
-      
-              font-size: 11.5pt;
           }
           sup[role=doc-backlink]>a, sup[role=doc-noteref]>a {
               cursor: default;
@@ -133,13 +137,25 @@
               text-decoration: none;
               color: var(--fg);
           }
-          sup[role=doc-backlink]>a:after {
-              content: " ";
-          }
       
           .footnote-sep {
               display: none;
           }
+      }
+      
+      @media (width < 32cm) {
+          [role=doc-endnotes] li {
+              margin-bottom: 0.2cm;
+              font-size: 11.5pt;
+          }
+      }
+      
+      [role=doc-endnotes] li {
+          font-size: 11.5pt;
+      }
+      
+      sup[role=doc-backlink]::after {
+          content: " ";
       }
       
       html {
@@ -315,7 +331,7 @@
       </mtable>
     </math>
     <p>And while this works (and leads to a running time of the form <math><msup><mn>2</mn><mrow><mi>𝑂</mi><mrow><mo>(</mo><mrow><mtext>tw</mtext><mo form="prefix" lspace="0.16666666666666666em" rspace="0.16666666666666666em">log</mo><mtext>tw</mtext></mrow><mo>)</mo></mrow></mrow></msup><mi>𝑛</mi></math>), the dependence on the treewidth is no longer singly exponential.</p>
-    <p>The Cut&amp;Count technique is a recent (2013) technique invented to solve problems with “connectivity constraints” such as the above in singly-exponential time.</p>
+    <p>The Cut&amp;Count technique <a id="loc-1" href="#loc-6" role="doc-biblioref">[1]</a> is a recent (2013) technique invented to solve problems with “connectivity constraints” such as the above in singly-exponential time.</p>
     <h3>Cut&amp;Count</h3>
     <p>It will turn out that, instead of finding an exact answer, it will be sufficient to count the number of solutions (of a slightly modified problem) modulo 2. (proof of this comes later). As is usual whenever a DP gets too complicated, we will also take the solution size as a parameter <math><mi>𝑘</mi></math> instead of computing the optimum directly.</p>
     <p>Let <math><mi>𝑅</mi></math> be the set of all “solutions” of the given size without the con­nectivity constraint (we will call these “potential solutions”), and <math><mi>𝑆</mi></math> be the subset of potential solutions which are actually connected.</p>
@@ -382,7 +398,7 @@
         </mtr>
       </mtable>
     </math>
-    <p>We would like to compute <math><mrow><mo>|</mo><mi>𝑆</mi><mo>|</mo></mrow></math> mod 2, but this seems hard. Computing the parity of <math><mrow><mo>|</mo><mi>𝑅</mi><mo>|</mo></mrow></math> is easy (in fact computing the whole of <math><mrow><mo>|</mo><mi>𝑅</mi><mo>|</mo></mrow></math> is easy), but this will not be very useful as the parity of <math><mrow><mo>|</mo><mi>𝑆</mi><mo>|</mo></mrow></math> and <math><mrow><mo>|</mo><mi>𝑅</mi><mo>|</mo></mrow></math> may differ.<sup id="loc-1" role="doc-noteref"><a href="#loc-3">1</a></sup></p>
+    <p>We would like to compute <math><mrow><mo>|</mo><mi>𝑆</mi><mo>|</mo></mrow></math> mod 2, but this seems hard. Computing the parity of <math><mrow><mo>|</mo><mi>𝑅</mi><mo>|</mo></mrow></math> is easy (in fact computing the whole of <math><mrow><mo>|</mo><mi>𝑅</mi><mo>|</mo></mrow></math> is easy), but this will not be very useful as the parity of <math><mrow><mo>|</mo><mi>𝑆</mi><mo>|</mo></mrow></math> and <math><mrow><mo>|</mo><mi>𝑅</mi><mo>|</mo></mrow></math> may differ.<sup id="loc-2" role="doc-noteref"><a href="#loc-8">1</a></sup></p>
     <p>The main idea of the Cut&amp;Count technique is to replace the “global” connectivity constraint with a local constraint about graph cuts. More specifically, consider some potential solution <math><mi>𝑋</mi></math>. Let a “consistent cut” of <math><mi>𝑋</mi></math> be a cut <math><mrow><mo>(</mo><mrow><msub><mi>𝑋</mi><mi>𝑙</mi></msub><mo>,</mo><msub><mi>𝑋</mi><mi>𝑟</mi></msub></mrow><mo>)</mo></mrow></math> such that no edge in <math><mi>𝐺</mi><mrow><mo>[</mo><mi>𝑋</mi><mo>]</mo></mrow></math> crosses the cut. Equi­valently, a consistent cut consists of an assignment of a side (“left” or “right”) to each connected component of <math><mi>𝐺</mi><mrow><mo>[</mo><mi>𝑋</mi><mo>]</mo></mrow></math>, and thus the number of consistent cuts is exactly <math><msup><mn>2</mn><mrow><mtext>cc</mtext><mrow><mo>(</mo><mrow><mi>𝐺</mi><mrow><mo>[</mo><mi>𝑋</mi><mo>]</mo></mrow></mrow><mo>)</mo></mrow></mrow></msup></math>, where <math><mtext>cc</mtext><mrow><mo>(</mo><mi>𝐻</mi><mo>)</mo></mrow></math> is the number of con­nected components in <math><mi>𝐻</mi></math>.</p>
     <p>This is almost what we want: if we somehow halved this number, we would get a number which is odd if <math><mi>𝐺</mi><mrow><mo>[</mo><mi>𝑋</mi><mo>]</mo></mrow></math> is connected and even otherwise. So let</p>
     <math display="block">
@@ -444,16 +460,46 @@
         <mo>}</mo>
       </mrow>
     </math>
-    <p>Then <math><mrow><mo>|</mo><mi>𝐶</mi><mo>|</mo></mrow><mo>≡</mo><mrow><mo>|</mo><mi>𝑆</mi><mo>|</mo></mrow><mo form="prefix" lspace="0.16666666666666666em" rspace="0.16666666666666666em">mod</mo><mn>2</mn></math>, since connected potential solutions<sup id="loc-2" role="doc-noteref"><a href="#loc-4">2</a></sup> contribute by exactly <math><mn>1</mn></math> to <math><mrow><mo>|</mo><mi>𝐶</mi><mo>|</mo></mrow></math> all other potential solutions contribute by <math><mn>0</mn><mo form="prefix" lspace="0.16666666666666666em" rspace="0.16666666666666666em">mod</mo><mn>2</mn></math>.</p>
+    <p>Then <math><mrow><mo>|</mo><mi>𝐶</mi><mo>|</mo></mrow><mo>≡</mo><mrow><mo>|</mo><mi>𝑆</mi><mo>|</mo></mrow><mo form="prefix" lspace="0.16666666666666666em" rspace="0.16666666666666666em">mod</mo><mn>2</mn></math>, since connected potential solutions<sup id="loc-3" role="doc-noteref"><a href="#loc-9">2</a></sup> contribute by exactly <math><mn>1</mn></math> to <math><mrow><mo>|</mo><mi>𝐶</mi><mo>|</mo></mrow></math> all other potential solutions contribute by <math><mn>0</mn><mo form="prefix" lspace="0.16666666666666666em" rspace="0.16666666666666666em">mod</mo><mn>2</mn></math>.</p>
     <p>To halve this number, we may simply pick a vertex <math><mi>𝑟</mi></math> we know is in the solution (ie. any vertex in <math><mi>𝑇</mi></math>) and require that it be put on the left side of the cut.</p>
     <p>To compute <math><mrow><mo>|</mo><mi>𝐶</mi><mo>|</mo></mrow></math> we may use standard DP techniques: Given a bag <math><mi>𝑡</mi></math>, a subset <math><mi>𝑋</mi><mo>⊂</mo><msub><mi>𝐵</mi><mi>𝑡</mi></msub></math> and an assignment <math><mi>𝑠</mi><mo lspace="0.2777777777777778em" rspace="0.2777777777777778em">:</mo><mi>𝐴</mi><mo stretchy="false">→</mo><mrow><mo>{</mo><mrow><mtext>L</mtext><mo>,</mo><mtext>R</mtext></mrow><mo>}</mo></mrow></math>, let <math><mi>𝑐</mi><mrow><mo>(</mo><mrow><mi>𝑡</mi><mo>,</mo><mi>𝐴</mi><mo>,</mo><mi>𝑠</mi></mrow><mo>)</mo></mrow></math> be the number of pairs <math><mrow><mo>(</mo><mrow><mi>𝑋</mi><mo>,</mo><mrow><mo>(</mo><mrow><msub><mi>𝑋</mi><mi>𝑙</mi></msub><mo>,</mo><msub><mi>𝑋</mi><mi>𝑟</mi></msub></mrow><mo>)</mo></mrow></mrow><mo>)</mo></mrow></math> in <math><mi>𝐶</mi></math> except restricted to <math><mi>𝐺</mi><mrow><mo>[</mo><msub><mi>𝑉</mi><mi>𝑡</mi></msub><mo>]</mo></mrow></math> such that <math><mi>𝑋</mi><mo>∩</mo><msub><mi>𝐵</mi><mi>𝑡</mi></msub><mo>=</mo><mi>𝐴</mi></math> and <math><mi>𝑠</mi></math> gives the side of each vertex in <math><mi>𝐴</mi></math> in the cut, requiring that <math><mi>𝑠</mi><mrow><mo>(</mo><mi>𝑟</mi><mo>)</mo></mrow><mo>=</mo><mtext>L</mtext></math>. Computing <math><mi>𝑐</mi></math> in time <math><msup><mi>𝑂</mi><mo form="infix" lspace="0em" rspace="0em">∗</mo></msup><mrow><mo>(</mo><msup><mn>2</mn><mrow><mi>𝑂</mi><mrow><mo>(</mo><mi>𝑘</mi><mo>)</mo></mrow></mrow></msup><mo>)</mo></mrow></math> should then be relatively straightforward.</p>
     <h3>The promised proof of why parity is enough</h3>
-    <p>There is some theorem that implies that randomly weighting the vertices in the graph and then looking for solutions that sum up to a given weight is enough.</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim aeque doleamus animo, cum corpore dolemus, fieri tamen permagna accessio potest, si aliquod aeternum et infinitum impendere malum nobis opinemur. Quod idem licet transferre in voluptatem, ut.</p>
+    <p>The following definition and lemma are taken from <a href="#loc-6" role="doc-biblioref">[1]</a>:</p>
+    <p><strong>Definition.</strong> A <em>function</em> <math><mi>𝜔</mi><mo lspace="0.2777777777777778em" rspace="0.2777777777777778em">:</mo><mi>𝑈</mi><mo stretchy="false">→</mo><mi>ℤ</mi></math> isolates a set family <math><mi>ℱ︀</mi><mo>⊆</mo><msup><mn>2</mn><mi>𝑈</mi></msup></math> if there is a unique <math><msup><mi>𝑆</mi><mi>′</mi></msup><mo>∈</mo><mi>ℱ︀</mi></math> with <math><mi>𝜔</mi><mrow><mo>(</mo><msup><mi>𝑆</mi><mi>′</mi></msup><mo>)</mo></mrow><mo>=</mo><msub><mo form="prefix" lspace="0em" rspace="0.16666666666666666em">min</mo><mrow><mi>𝑆</mi><mo lspace="0em" rspace="0em">∈</mo><mi>ℱ︀</mi></mrow></msub><mi>𝜔</mi><mrow><mo>(</mo><mi>𝑆</mi><mo>)</mo></mrow></math>.</p>
+    <p><strong>Lemma.</strong> <em>(Isolation Lemma, <a id="loc-4" href="#loc-7" role="doc-biblioref">[2]</a>)</em> Let <math><mi>ℱ︀</mi><mo>⊆</mo><msup><mn>2</mn><mi>𝑈</mi></msup></math> be a set family over a universe <math><mi>𝑈</mi></math> with <math><mrow><mo>|</mo><mi>ℱ︀</mi><mo>|</mo></mrow><mo>></mo><mn>0</mn></math>. For each <math><mi>𝑢</mi><mo>∈</mo><mi>𝑈</mi></math>, choose a weight <math><mi>𝜔</mi><mrow><mo>(</mo><mi>𝑢</mi><mo>)</mo></mrow><mo>∈</mo><mrow><mo>{</mo><mrow><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>𝑁</mi></mrow><mo>}</mo></mrow></math> uniformly and independently at random. Then</p>
+    <math display="block">
+      <mi>ℙ</mi>
+      <mrow>
+        <mo>[</mo>
+        <mrow>
+          <mi>𝜔</mi>
+          <mspace width="0.2222222222222222em"/>
+          <mtext>isolates</mtext>
+          <mspace width="0.2222222222222222em"/>
+          <mi>ℱ︀</mi>
+        </mrow>
+        <mo>]</mo>
+      </mrow>
+      <mo>≥</mo>
+      <mn>1</mn>
+      <mo>−</mo>
+      <mfrac>
+        <mrow>
+          <mo>|</mo>
+          <mi>𝑈</mi>
+          <mo>|</mo>
+        </mrow>
+        <mi>𝑁</mi>
+      </mfrac>
+    </math>
+    <p>The relevance of the Isolation Lemma is as follows: Let <math><mi>𝑈</mi><mo>=</mo><mi>𝑉</mi></math> and <math><mi>ℱ︀</mi></math> be the set of solutions. Then the isolation lemma implies that if we randomly weigh the vertices in the graph, whp. there will be some weight <math><mi>𝑤</mi></math> such that exactly one solution has weight <math><mi>𝑤</mi></math>. In particular, <math><mn>1</mn></math> is odd, so if we only look for solutions of weight <math><mi>𝑤</mi></math>, if <math><mi>𝜔</mi><mspace width="0.2222222222222222em"/><mtext>isolates</mtext><mspace width="0.2222222222222222em"/><mi>ℱ︀</mi></math>, we will detect that we have an odd number of solutions and thus that a solution exists.</p>
+    <p>We get the following algorithm: let <math><mi>𝑁</mi><mo>=</mo><mn>2</mn><mrow><mo>|</mo><mi>𝑉</mi><mo>|</mo></mrow></math>, and uniformly and independently at random assign a weight in <math><mrow><mo>{</mo><mrow><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>𝑁</mi></mrow><mo>}</mo></mrow></math> to each vertex in the graph. Then, for each <math><mi>𝑤</mi></math> from <math><mn>1</mn></math> to <math><mi>𝑁</mi><mrow><mo>|</mo><mi>𝑉</mi><mo>|</mo></mrow></math><sup id="loc-5" role="doc-noteref"><a href="#loc-10">3</a></sup>, compute the number of solutions of total weight <math><mi>𝑤</mi><mo form="prefix" lspace="0.16666666666666666em" rspace="0.16666666666666666em">mod</mo><mn>2</mn></math>. If any of them is nonzero, return <code>True</code>, otherwise return <code>False</code>.</p>
+    <p>Obviously, if the algorithm returns <code>True</code>, there must be at least one solution. Otherwise, the probability that a solution exists is <math><mo form="infix" lspace="0em">≤</mo><mrow><mo>|</mo><mi>𝑉</mi><mo>|</mo></mrow><mi>/</mi><mi>𝑁</mi><mo>=</mo><mn>1</mn><mi>/</mi><mn>2</mn></math>, by the Isolation Lemma, as outlined above.</p>
     <section role="doc-bibliography">
       <h2>Bibliography</h2>
       <ul style="list-style-type: none">
-        <li><span class="prefix">[1]</span> M. Cygan, <em>Cut&amp;Count technique for graph connectivity problems parameterized by treewidth</em>. 2011.</li>
+        <li id="loc-6"><span class="prefix"><a href="#loc-1" role="doc-backlink">[1]</a></span> M. Cygan, <em>Cut&amp;Count technique for graph connectivity problems parameterized by treewidth</em>. 2011.</li>
+        <li id="loc-7"><span class="prefix"><a href="#loc-4" role="doc-backlink">[2]</a></span> ‘Matching is as Easy as Matrix Inversion’.</li>
       </ul>
     </section>
     <hr class="footnote-sep">
@@ -480,8 +526,10 @@ setTimeout(f, 0);
     </p>
     <section role="doc-endnotes">
       <ol style="list-style-type: none">
-        <li id="loc-3"><sup role="doc-backlink"><a href="#loc-1">1</a></sup>testing footnotes</li>
-        <li id="loc-4"><sup role="doc-backlink"><a href="#loc-2">2</a></sup>aka solutions</li>
+        <li id="loc-8"><sup role="doc-backlink"><a href="#loc-2">1</a></sup>testing footnotes</li>
+        <li id="loc-9"><sup role="doc-backlink"><a href="#loc-3">2</a></sup>aka solutions</li>
+        <li id="loc-10"><sup role="doc-backlink"><a href="#loc-5">3</a></sup>Or any upper bound on the maximum solution weight, for <span style="font-variant-caps: small-caps">Steiner Tree</span> <math><mi>𝑘</mi><mrow><mo>|</mo><mi>𝑉</mi><mo>|</mo></mrow></math> suffices<sup id="loc-11" role="doc-noteref"><a href="#loc-12">4</a></sup></li>
+        <li id="loc-12"><sup role="doc-backlink"><a href="#loc-11">4</a></sup>testing nested footnotes</li>
       </ol>
     </section>
   </body>

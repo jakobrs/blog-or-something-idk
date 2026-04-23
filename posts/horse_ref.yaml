@@ -1,7 +1,15 @@
-a:
+cygan_phd:
   type: Book
   title: "Cut&Count technique for graph connectivity problems parameterized by treewidth"
   author: Cygan, Marek
   date: 2011-09
   genre: Doctoral dissertatoin
   chapter: 3
+
+isol:
+   type: Article
+   title: "Matching is as Easy as Matrix Inversion"
+   authors:
+      - Vazirani, Umesh V.
+      - Vazirani, Vijay V.
+      - Mulmuley, Ketan
