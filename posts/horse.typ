@@ -5,6 +5,8 @@
   #set text(lang: "en", region: "gb")
   #set par(justify: true)
 
+  #lib.math_mode
+
   #title()
 
   Consider the #smallcaps[Steiner Tree] problem:

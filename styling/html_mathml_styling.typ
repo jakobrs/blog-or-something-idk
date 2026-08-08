@@ -5,6 +5,8 @@
   #body
 ])
 
+#let math_mode = html.style("body { --math: 1 }")
+
 #let f(opts, x) = {
   let opts = if opts == none { (:) } else { opts }
   let root = opts.at(default: none, "root")

@@ -5,6 +5,8 @@
   #body
 ])
 
+#let math_mode = []
+
 #let f(opts, x) = [
   #x
 ]

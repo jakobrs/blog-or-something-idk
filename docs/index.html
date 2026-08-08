@@ -117,7 +117,7 @@ body {
     /* min(14pt, x*vw) */
     /* if vw = 19cm, x*vw = 14pt ==> x = 14pt/19cm */
     /*font-size: calc(min(14pt, (14pt/19cm) * 100vw));*/
-    font-size: calc(min(14pt, 2.6vw));  /* firefox compat */
+    font-size: calc(var(--math, 0) * min(14pt, 2.6vw) + (1 - var(--math, 0)) * 14pt);  /* firefox compat */
 
     font-family: "libertinus serif";
 }
