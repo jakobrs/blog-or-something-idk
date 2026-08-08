@@ -14,6 +14,8 @@
 
   html.style(read("style.css"))
 
+  counter(footnote).update(0)
+
   if root != none {
     html.header(link(root)[Home])
   }

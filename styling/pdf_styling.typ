@@ -7,6 +7,8 @@
 
 #let math_mode = []
 
-#let f(opts, x) = [
-  #x
-]
+#let f(opts, x) = {
+  counter(footnote).update(0)
+
+  x
+}

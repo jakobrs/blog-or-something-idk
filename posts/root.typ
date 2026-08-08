@@ -13,6 +13,7 @@
 #asset("LibertinusSerif-license.txt", read("../fonts/Libertinus_Serif/OFL.txt"))
 #asset("STIXTwoMath-Regular.ttf", read(encoding: none, "../fonts/STIX_Two_Math/STIXTwoMath-Regular.ttf"))
 #asset("STIXTwoMath-license.txt", read("../fonts/STIX_Two_Math/OFL.txt"))
+
 #document("horse.html", horse.doc(opts: (other: <horse_mathml>, root: <root>), svg)) <horse>
 #document("horse.mathml.html", horse.doc(opts: (other: <horse>, root: <root>), mathml)) <horse_mathml>
 #document("horse.pdf", horse.doc(pdf)) <horse_pdf>
