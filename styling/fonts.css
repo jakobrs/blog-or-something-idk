@@ -1,0 +1,11 @@
+@font-face {
+    /* Licence: see /LibertinusSerif-license.txt (OFL) */
+    font-family: "Libertinus Serif";
+    src: url("LibertinusSerif-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    /* Licence: see /STIXTwoMath-license.txt (OFL) */
+    font-family: "STIX Two Math";
+    src: url("STIXTwoMath-Regular.ttf") format("truetype");
+}

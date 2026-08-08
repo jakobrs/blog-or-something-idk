@@ -72,7 +72,7 @@ mover[accent="true" i] > :not(:first-child) {
   math-depth: inherit;
   math-style: inherit;
   math-shift: inherit;
-}</style></head><body><style>@import url('https://fonts.googleapis.com/css2?family=STIX+Two+Math&family=Libertinus+Serif+Display&family=Libertinus+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
+}</style></head><body><style>@import "/fonts.css";
 
 html {
     --bg: #fdf6ea;  /* solarized base3 */
@@ -119,7 +119,7 @@ body {
     /*font-size: calc(min(14pt, (14pt/19cm) * 100vw));*/
     font-size: calc(var(--math, 0) * min(14pt, 2.6vw) + (1 - var(--math, 0)) * 14pt);  /* firefox compat */
 
-    font-family: "libertinus serif";
+    font-family: "Libertinus Serif";
 }
 
 math {
