@@ -1,11 +1,11 @@
 #let doc(opts: none, lib) = [
   #show: lib.f.with(opts)
 
+  #set document(title: [#link("https://enclose.horse")[Enclsoing the horse] in singly-exponential time])
   #set text(lang: "en", region: "gb")
-
   #set par(justify: true)
 
-  = #link("https://enclose.horse")[Enclsoing the horse] in singly-exponential time
+  #title()
 
   Consider the #smallcaps[Steiner Tree] problem:
 

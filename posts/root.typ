@@ -1,7 +1,7 @@
 #import "horse.typ"
 #import "../styling/styling.typ": svg, pdf, mathml
 
-#document("index.html", mathml.f(none)[
+#document(title: "lipu Jakob", "index.html", mathml.f(none)[
   = Welcome to this sort of blog thing
 
   - #link(<horse>)[On the Cut&Count technique] (#link(<horse_pdf>)[PDF version])
