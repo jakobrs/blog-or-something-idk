@@ -1,8 +1,9 @@
 html {
     --bg: #fdf6ea;  /* solarized base3 */
     --fg: #073642;
-    --fg-acc: #002b36;
     --bg-acc: #eee8d5;
+    --fg-acc: #002b36;
+    --bg-acc-acc: oklch(from var(--bg-acc) 0.87 c h)
 }
 
 path {
@@ -70,13 +71,22 @@ h1 {
     margin-bottom: 0pt;
 }
 
-a[role=doc-biblioref], a[role=doc-backlink], h1 a {
+a {
+    color: blue;
+}
+a[role=doc-biblioref], a[role=doc-backlink], sup[role=doc-noteref] a, sup[role=doc-backlink] a, h1 a {
     text-decoration: none;
     color: inherit;
 }
-a[role=doc-biblioref]:hover, a[role=doc-backlink]:hover, h1 a:hover {
+
+a:hover {
     background-color: var(--bg-acc);
     box-shadow: 0 0 0 0.05cm var(--bg-acc);
+}
+
+header a:hover {
+    background-color: var(--bg-acc-acc);
+    box-shadow: 0 0 0 0.05cm var(--bg-acc-acc);
 }
 
 @media (width >= 32cm) {
