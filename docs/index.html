@@ -1,6 +1,232 @@
-<!DOCTYPE html>
-<html lang="en-GB">
-  <head>
-    <meta http-equiv="refresh" content="0; url=/horse.html" />
-  </head>
-</html>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><style>/* Alignment */
+mtable.right-align mtd,
+mtable mtd.right-align,
+mtable.left-align mtd.right-align,
+mtable.aligned mtd:nth-child(odd) {
+  justify-items: end;
+  text-align: right;
+}
+mtable.cases mtd,
+mtable.left-align mtd,
+mtable mtd.left-align,
+mtable.aligned mtd:nth-child(even),
+math:is(:not([display])) > mtable.multiline-equation mtd {
+  justify-items: start;
+  text-align: left;
+}
+mtable.cases mtd,
+mtable.aligned mtd,
+mtable mtd.flushed,
+mtable mtd.left-flush {
+  padding-left: 0;
+}
+mtable.cases mtd,
+mtable.aligned mtd,
+mtable mtd.flushed,
+mtable mtd.right-flush {
+  padding-right: 0;
+}
+
+/* Tables */
+mtable {
+  math-style: inherit;
+}
+mtd {
+  math-depth: auto-add;
+  math-style: compact;
+  math-shift: compact;
+}
+
+/* Equations */
+mtable.multiline-equation mtd {
+  math-depth: inherit;
+  math-style: inherit;
+  math-shift: inherit;
+  padding: 0;
+}
+math > mtable.multiline-equation mtr:not(:last-child) mtd {
+  padding-bottom: 0.5em;
+}
+
+/* Fractions */
+mfrac {
+  padding-inline: 0;
+  margin-inline: 0.1em;
+}
+
+/* Accents */
+mover[accent="true" i] > :first-child {
+  font-feature-settings: "dtls";
+}
+mover.dotted[accent="true" i] > :first-child {
+  font-feature-settings: "dtls" 0;
+}
+
+/* Other rules for scriptlevel, displaystyle and math-shift */
+munder > :nth-child(2),
+munderover > :nth-child(2) {
+  math-shift: compact
+}
+munder[accentunder="true" i] > :not(:first-child),
+mover[accent="true" i] > :not(:first-child) {
+  math-depth: inherit;
+  math-style: inherit;
+  math-shift: inherit;
+}</style></head><body><style>@import url('https://fonts.googleapis.com/css2?family=Libertinus+Math&family=Libertinus+Serif+Display&family=Libertinus+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
+
+html {
+    --bg: #fdf6ea;  /* solarized base3 */
+    --fg: #073642;
+    --fg-acc: #002b36;
+    --bg-acc: #eee8d5;
+}
+
+path {
+    fill: var(--fg);
+}
+
+header {
+	background-color: var(--bg-acc);
+	margin: 0;
+	padding: 8pt;
+	box-shadow: var(--bg-acc) 10 10;
+	margin-left: calc(-50vw + min(17cm, 100vw - 2cm)/2);
+	width: 100vw;
+	padding-left: calc(50vw - min(17cm, 100vw - 2cm)/2 + 5pt);
+
+	> a {
+	    text-decoration: none;
+    	color: var(--fg);
+	}
+}
+
+body {
+    text-align: justify;
+    hyphens: auto;
+
+    background-color: var(--bg);
+    margin: auto;
+    color: var(--fg);
+    /*width: min(17cm, 90vw);*/
+
+    padding-left: 1cm;
+    padding-right: 1cm;
+    padding-top: 0;
+    padding-bottom: 2cm;
+    width: calc(min(17cm, 100vw - 2cm));
+    /* min(14pt, x*vw) */
+    /* if vw = 19cm, x*vw = 14pt ==> x = 14pt/19cm */
+    /*font-size: calc(min(14pt, (14pt/19cm) * 100vw));*/
+    font-size: calc(min(14pt, 2.6vw));  /* firefox compat */
+
+    font-family: "libertinus serif";
+}
+
+math {
+    font-family: "libertinus math";
+}
+
+.display-eqn {
+    text-align: center;
+}
+
+.problem-box {
+    border: 2pt solid var(--fg-acc);
+    padding: 0pt 10pt;
+}
+.problem-box hr {
+    width: calc(100% + 20pt);
+    transform: translateX(-10pt);
+    height: 2pt;
+    border: none;
+    background-color: var(--fg-acc);
+}
+
+h2 {
+    font-size: 1.3em;
+    margin-bottom: 0pt;
+}
+
+a[role=doc-biblioref], a[role=doc-backlink], h2 a {
+    text-decoration: none;
+    color: inherit;
+}
+a[role=doc-biblioref]:hover, a[role=doc-backlink]:hover, h2 a:hover {
+    background-color: var(--bg-acc);
+    box-shadow: 0 0 0 0.05cm var(--bg-acc);
+}
+
+@media (width >= 32cm) {
+    [role=doc-endnotes] li {
+        position: absolute;
+        /*top: 1000000000000pt;*/
+        left: calc(50vw + 17cm / 2 + 1cm); /* ie. 1cm to the left */
+        max-width: 315px;
+        right: 0.8cm;
+        text-align: left;
+    }
+    sup[role=doc-backlink]>a, sup[role=doc-noteref]>a {
+        cursor: default;
+        pointer-events: none;
+        text-decoration: none;
+        color: var(--fg);
+    }
+
+    .footnote-sep {
+        display: none;
+    }
+}
+
+@media (width < 32cm) {
+    [role=doc-endnotes] li {
+        margin-bottom: 0.2cm;
+        font-size: 11.5pt;
+    }
+}
+
+[role=doc-endnotes] li {
+    font-size: 11.5pt;
+}
+
+sup[role=doc-backlink]::after {
+    content: " ";
+}
+
+html {
+    position: relative;
+}
+
+.version-link {
+    position: absolute;
+    bottom: 0.5cm;
+    right: 0.5cm;
+}
+.version-link>a {
+    color: var(--fg-acc);
+}
+
+figure {
+    text-align: center;
+}
+
+figure img {
+    width: 50%;
+    height: 50%;
+    margin: auto;
+}
+</style><h2>Welcome to this sort of blog thing</h2><ul><li><a href="horse.html">On the Cut&amp;Count technique</a> (<a href="horse.pdf">PDF version</a>)</li></ul><hr class="footnote-sep"><script>function f() {
+  let i = 0;
+  for (let elem of document.querySelectorAll("[role=doc-endnotes] li")) {
+    let referent = document.querySelector(
+      elem.querySelector("sup[role=doc-backlink]>a").getAttribute("href"),
+    );
+
+    referent.style.anchorName = `--ref-${i}`;
+    elem.style.anchorName = `--ref-${i}-footnote`;
+    elem.style.top = `calc(max(anchor(--ref-${i - 1}-footnote bottom, -10px) + 10px, anchor(--ref-${i} top)))`;
+    i += 1;
+  }
+}
+
+setTimeout(f, 0);
+</script></body></html>

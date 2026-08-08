@@ -22,5 +22,4 @@ compile() {
 }
 
 rm docs/*
-cp index.html CNAME docs/
-compile horse
+typst compile --root "$PWD" --features bundle,html --format bundle posts/root.typ docs

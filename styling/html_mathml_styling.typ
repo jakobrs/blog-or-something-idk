@@ -5,13 +5,23 @@
   #body
 ])
 
-#let f(x) = [
-  #html.style(read("style.css"))
+#let f(opts, x) = {
+  let opts = if opts == none { (:) } else { opts }
+  let root = opts.at(default: none, "root")
+  let other = opts.at(default: none, "other")
 
-  #x
+  html.style(read("style.css"))
 
-  #html.hr(class: "footnote-sep")
+  if root != none {
+    html.header(link(root)[Home])
+  }
 
-  #html.div(class: "version-link")[#link("/")[SVG version]]
-  #html.script(read("notes.js"))
-]
+  x
+
+  html.hr(class: "footnote-sep")
+
+  if other != none {
+    html.div(class: "version-link", link(other)[SVG version])
+  }
+  html.script(read("notes.js"))
+}

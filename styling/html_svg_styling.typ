@@ -5,16 +5,26 @@
   #body
 ])
 
-#let f(x) = [
-  #show math.equation.where(block: false): a => box(html.frame(a))
-  #show math.equation.where(block: true): a => html.div(class: "display-eqn", html.frame(a))
+#let f(opts, x) = {
+  let opts = if opts == none { (:) } else { opts }
+  let root = opts.at(default: none, "root")
+  let other = opts.at(default: none, "other")
 
-  #html.style(read("style.css"))
+  show math.equation.where(block: false): a => box(html.frame(a))
+  show math.equation.where(block: true): a => html.div(class: "display-eqn", html.frame(a))
 
-  #x
+  html.style(read("style.css"))
 
-  #html.hr(class: "footnote-sep")
+  if root != none {
+    html.header(link(root)[Home])
+  }
 
-  #html.div(class: "version-link")[#link("/mathml.html")[MathML version]]
-  #html.script(read("notes.js"))
-]
+  x
+
+  html.hr(class: "footnote-sep")
+
+  if other != none {
+    html.div(class: "version-link", link(other)[MathML version])
+  }
+  html.script(read("notes.js"))
+}

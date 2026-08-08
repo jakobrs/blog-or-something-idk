@@ -11,6 +11,21 @@ path {
     fill: var(--fg);
 }
 
+header {
+	background-color: var(--bg-acc);
+	margin: 0;
+	padding: 8pt;
+	box-shadow: var(--bg-acc) 10 10;
+	margin-left: calc(-50vw + min(17cm, 100vw - 2cm)/2);
+	width: 100vw;
+	padding-left: calc(50vw - min(17cm, 100vw - 2cm)/2 + 5pt);
+
+	> a {
+	    text-decoration: none;
+    	color: var(--fg);
+	}
+}
+
 body {
     text-align: justify;
     hyphens: auto;
@@ -22,7 +37,7 @@ body {
 
     padding-left: 1cm;
     padding-right: 1cm;
-    padding-top: 0.2cm;
+    padding-top: 0;
     padding-bottom: 2cm;
     width: calc(min(17cm, 100vw - 2cm));
     /* min(14pt, x*vw) */
@@ -122,4 +137,6 @@ figure {
 
 figure img {
     width: 50%;
+    height: 50%;
+    margin: auto;
 }

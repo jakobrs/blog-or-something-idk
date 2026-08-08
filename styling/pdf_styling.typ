@@ -5,6 +5,6 @@
   #body
 ])
 
-#let f(x) = [
+#let f(opts, x) = [
   #x
 ]
