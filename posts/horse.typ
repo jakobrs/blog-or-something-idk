@@ -23,7 +23,7 @@
 
   with $n thin 2^"tw"$ many states. This does not quite work, however: consider a grid graph like the following:
 
-  #figure(image("horse_grid.png"))
+  #figure(image(width: 30%, height: 30%, "horse_grid.png"))
 
   Here, $A("row" 3, {(3, 1), (3, 3)})$ tells us nothing about whether $(3, 1)$ and $(3, 3)$ are connected somewhere within $V_("row" 3)$ (ie. through $(4, 2)$) or outside (through $(2, 2)$). Subsequently we will not be able to ensure that $(3, 1)$ and $(3, 3)$ are connected at all!
 

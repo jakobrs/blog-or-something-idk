@@ -52,8 +52,8 @@ math {
     font-family: "libertinus math";
 }
 
-.display-eqn {
-    text-align: center;
+.display-eqn>svg {
+    margin: auto;
 }
 
 .problem-box {
@@ -131,12 +131,6 @@ html {
     color: var(--fg-acc);
 }
 
-figure {
-    text-align: center;
-}
-
 figure img {
-    width: 50%;
-    height: 50%;
     margin: auto;
 }
