@@ -72,9 +72,7 @@ mover[accent="true" i] > :not(:first-child) {
   math-depth: inherit;
   math-style: inherit;
   math-shift: inherit;
-}</style></head><body><style>@import "/fonts.css";
-
-html {
+}</style></head><body><link rel="stylesheet" href="/fonts.css"><style>html {
     --bg: #fdf6ea;  /* solarized base3 */
     --fg: #073642;
     --fg-acc: #002b36;
@@ -101,9 +99,6 @@ header {
 }
 
 body {
-    text-align: justify;
-    hyphens: auto;
-
     background-color: var(--bg);
     margin: auto;
     color: var(--fg);
@@ -117,7 +112,7 @@ body {
     /* min(14pt, x*vw) */
     /* if vw = 19cm, x*vw = 14pt ==> x = 14pt/19cm */
     /*font-size: calc(min(14pt, (14pt/19cm) * 100vw));*/
-    font-size: calc(var(--math, 0) * min(14pt, 2.6vw) + (1 - var(--math, 0)) * 14pt);  /* firefox compat */
+    font-size: 14pt;
 
     font-family: "Libertinus Serif";
 }

@@ -5,14 +5,15 @@
   #body
 ])
 
-#let math_mode = html.style("body { --math: 1 }")
+#let math_mode = html.style(read("../styling/math.css"))
 
 #let f(opts, x) = {
   let opts = if opts == none { (:) } else { opts }
   let root = opts.at(default: none, "root")
   let other = opts.at(default: none, "other")
 
-  html.style(read("style.css"))
+  html.link(rel: "stylesheet", href: "/fonts.css")
+  html.style(read("../styling/style.css"))
 
   counter(footnote).update(0)
 

@@ -5,7 +5,7 @@
   #body
 ])
 
-#let math_mode = html.style("body { --math: 1 }")
+#let math_mode = html.style(read("../styling/math.css"))
 
 #let f(opts, x) = {
   let opts = if opts == none { (:) } else { opts }
@@ -15,7 +15,8 @@
   show math.equation.where(block: false): a => box(html.frame(a))
   show math.equation.where(block: true): a => html.div(class: "display-eqn", html.frame(a))
 
-  html.style(read("style.css"))
+  html.link(rel: "stylesheet", href: "/fonts.css")
+  html.style(read("../styling/style.css"))
 
   counter(footnote).update(0)
 
