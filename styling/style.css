@@ -30,11 +30,12 @@ body {
     color: var(--fg);
     /*width: min(17cm, 90vw);*/
 
-    padding-left: 1cm;
-    padding-right: 1cm;
+    --padding: 0.5cm;
+    padding-left: var(--padding);
+    padding-right: var(--padding);
     padding-top: 0;
     padding-bottom: 2cm;
-    width: calc(min(17cm, 100vw - 2cm));
+    width: calc(min(17cm, 100vw - 2 * var(--padding)));
     /* min(14pt, x*vw) */
     /* if vw = 19cm, x*vw = 14pt ==> x = 14pt/19cm */
     /*font-size: calc(min(14pt, (14pt/19cm) * 100vw));*/

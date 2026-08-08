@@ -2,4 +2,6 @@ body {
     text-align: justify;
     hyphens: auto;
     font-size: calc(min(14pt, 2.6vw)) !important;
+
+    --padding: 0.75cm !important;
 }

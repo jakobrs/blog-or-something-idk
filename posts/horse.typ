@@ -1,11 +1,11 @@
-#let doc(opts: none, lib) = [
+#let doc(opts: (:), lib) = [
+  #opts.insert("math", true)
+
   #show: lib.f.with(opts)
 
   #set document(title: [#link("https://enclose.horse")[Enclsoing the horse] in singly-exponential time])
   #set text(lang: "en", region: "gb")
   #set par(justify: true)
-
-  #lib.math_mode
 
   #title()
 

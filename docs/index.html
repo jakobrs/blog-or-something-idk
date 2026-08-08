@@ -104,11 +104,12 @@ body {
     color: var(--fg);
     /*width: min(17cm, 90vw);*/
 
-    padding-left: 1cm;
-    padding-right: 1cm;
+    --padding: 0.5cm;
+    padding-left: var(--padding);
+    padding-right: var(--padding);
     padding-top: 0;
     padding-bottom: 2cm;
-    width: calc(min(17cm, 100vw - 2cm));
+    width: calc(min(17cm, 100vw - 2 * var(--padding)));
     /* min(14pt, x*vw) */
     /* if vw = 19cm, x*vw = 14pt ==> x = 14pt/19cm */
     /*font-size: calc(min(14pt, (14pt/19cm) * 100vw));*/
@@ -204,7 +205,19 @@ html {
 figure img {
     margin: auto;
 }
-</style><h2>Welcome to this sort of blog thing</h2><ul><li><a href="horse.html">On the Cut&amp;Count technique</a> (<a href="horse.pdf">PDF version</a>)</li></ul><hr class="footnote-sep"><script>function f() {
+/* Sadly Firefox does not support CSS if() */
+/* and nothing else supports custom media things, which would work as well */
+
+body {
+    font-size: 14pt;
+}
+
+@media (width <= 490px) {
+    body {
+        font-size: 13pt;
+    }
+}
+</style><h2>Welcome to this sort of blog thing</h2><ul><li><a href="horse.html">On the Cut&amp;Count technique</a> (<a href="horse.pdf">PDF version</a>)</li></ul><p>Other things on this domain:</p><ul><li><a href="https://typst.ud2.no/">The Typst compiler compiled to WASM running in your browser</a></li></ul><hr class="footnote-sep"><script>function f() {
   let i = 0;
   for (let elem of document.querySelectorAll("[role=doc-endnotes] li")) {
     let referent = document.querySelector(

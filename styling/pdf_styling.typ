@@ -5,8 +5,6 @@
   #body
 ])
 
-#let math_mode = []
-
 #let f(opts, x) = {
   counter(footnote).update(0)
 

@@ -1,0 +1,12 @@
+/* Sadly Firefox does not support CSS if() */
+/* and nothing else supports custom media things, which would work as well */
+
+body {
+    font-size: 14pt;
+}
+
+@media (width <= 490px) {
+    body {
+        font-size: 13pt;
+    }
+}

@@ -5,6 +5,10 @@
   = Welcome to this sort of blog thing
 
   - #link(<horse>)[On the Cut&Count technique] (#link(<horse_pdf>)[PDF version])
+
+  Other things on this domain:
+
+  - #link("https://typst.ud2.no/")[The Typst compiler compiled to WASM running in your browser]
 ]) <root>
 
 #asset("CNAME", "ud2.no")
